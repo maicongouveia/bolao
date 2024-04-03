@@ -136,7 +136,7 @@ function montarMensagem(ganhadores){
 
 let pontuacao = 86;
 
-function calcularVencedorDoDia(apostas, pontuacao){
+function calcularVencedorDoDia(day, apostas, pontuacao){
   
   let distancia = calcularDistacia(apostas, pontuacao);
 
@@ -144,7 +144,13 @@ function calcularVencedorDoDia(apostas, pontuacao){
 
   let mensagem = montarMensagem(ganhadores);
 
-  console.log(mensagem);
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1)
+  yesterday = yesterday.toISOString().split("T")[0];
+
+  if(day == yesterday){
+    console.log(mensagem);
+  }
 
   return ganhadores;
 }
@@ -194,7 +200,7 @@ function calcularLeaderBoard(data){
   
   for(day of Object.keys(betsMonth)){
     let {bets, score} = betsMonth[day]
-    counting[day] = calcularVencedorDoDia(bets, score);
+    counting[day] = calcularVencedorDoDia(day,bets, score);
   }
 
   for(day of Object.keys(counting)){
@@ -260,7 +266,9 @@ function calcularLeaderBoard(data){
 
 }
 
-calcularLeaderBoard(data);
+let leaderboard, message = calcularLeaderBoard(data);
+
+console.log(message);
 
 //calcularVencedorDoDia(apostasComSnipada, pontuacao);
 
@@ -269,7 +277,7 @@ calcularLeaderBoard(data);
 /*
   [x] - somar pontos
   [x] - ordernar e imprimir
-  [ ] - imprimir apenas dia atual
+  [x] - imprimir apenas dia atual
   [ ] - coletar dados
   [ ] - ordernar por snipadas
   [ ] - ordernar por quantidade de votos

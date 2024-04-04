@@ -189,6 +189,18 @@ const data = {
         "Zé":77
       },
       score: 86,
+    },
+    "2024-04-03": {
+      bets: {
+        "Alan":0,
+        "Alex":85,
+        "Arthur":82,
+        "Daniel":89,
+        "Gruber":81,
+        "Loren":80,
+        "Zé":83
+      },
+      score: 70,
     }
   }
 };

@@ -1,4 +1,4 @@
-const getDataFromGoogleSheetAPI = require('./getData.js');
+const {google} = require('googleapis');
 
 function calcularDistacia(apostas, pontuacao){
   let distancia = {};
@@ -54,21 +54,15 @@ function encontrarVencedores(distancia){
   return maisDeUmGanhador,ganhadores;
 }
 
-function montarMensagem(ganhadores){
-  let mensagem = `
-    Bom dia grupo
-    Planilha Atualizada`; 
+function montarMensagem(ganhadores, pontuacao){
+  let mensagem = "Bom dia grupo\nPlanilha Atualizada\n";
   
   if(ganhadores.length == 0){
-    mensagem += `
-    Ninguem acertou
-    `;
-
+    mensagem += "Ninguem acertou\n";
     return mensagem;
   }
 
-  mensagem += `
-    Parabens`;
+  mensagem += "Parabens";
 
   
   ganhadores.forEach(ganhador => {
@@ -90,6 +84,8 @@ function montarMensagem(ganhadores){
     
   }
 
+  mensagem += "\nNota do Sono: " + pontuacao;
+
   mensagem += `
   `
 
@@ -102,7 +98,7 @@ function calcularVencedorDoDia(day, apostas, pontuacao){
 
   let ganhadores = encontrarVencedores(distancia);
 
-  let mensagem = montarMensagem(ganhadores);
+  let mensagem = montarMensagem(ganhadores, pontuacao);
 
   let yesterday = new Date();
   yesterday.setDate(yesterday.getDate()-1)
@@ -115,57 +111,71 @@ function calcularVencedorDoDia(day, apostas, pontuacao){
   return ganhadores;
 }
 
-const data = {
-  users:[
-    "Alan",
-    "Alex",
-    "Arthur",
-    "Daniel",
-    "Gruber",
-    "Loren",
-    "Zé"
-  ],
-  betDates: {
-    "2024-04-01": {
-      bets: {
-        "Alan":81,
-        "Alex":84,
-        "Arthur":0,
-        "Daniel":83,
-        "Gruber":89,
-        "Loren":80,
-        "Zé":82
-      },
-      score: 78,
-    },
-    "2024-04-02": {
-      bets: {
-        "Alan":81,
-        "Alex":78,
-        "Arthur":82,
-        "Daniel":80,
-        "Gruber":86,
-        "Loren":85,
-        "Zé":77
-      },
-      score: 86,
-    },
-    "2024-04-03": {
-      bets: {
-        "Alan":0,
-        "Alex":85,
-        "Arthur":82,
-        "Daniel":89,
-        "Gruber":81,
-        "Loren":80,
-        "Zé":83
-      },
-      score: 70,
+async function getDataFromGoogleSheetAPI(){
+  const auth = new google.auth.GoogleAuth({
+    keyFile: "credentials.json",
+    scopes: "https://www.googleapis.com/auth/spreadsheets",
+  });
+  
+  // Create client instance for auth
+  const client = await auth.getClient();
+  
+  // Instance of Google Sheets API
+  const googleSheets = google.sheets({ version: "v4", auth: client });
+  
+  const spreadsheetId = "15maJIAB28avJGYQ-03u1b4C_QmcOtQioHPWcEolVors";
+  
+  const getRows = await googleSheets.spreadsheets.values.get({
+    spreadsheetId,
+    range: 'Abril!B1:AF9',
+    majorDimension: "COLUMNS"
+  });
+
+  let data = getRows.data.values;
+
+  let users = data[0];
+  users.shift();
+  users.pop();
+
+//console.log(data);
+
+  let betDates = {};
+
+  for(let i = 1; i < data.length; i++){
+    if(data[i].length > 1){
+    
+      let colunm = data[i];
+
+      //construindo o indice
+      let date = colunm[0];
+      date = date.split('/');
+      let formattedDate = `2024-${date[1]}-${date[0]}`;
+
+      betDates[formattedDate] = {};
+
+      betDates[formattedDate]['bets'] = {};
+
+      for(let j = 1; j < colunm.length; j++){
+        if(j != colunm.length-1){
+          betDates[formattedDate]['bets'][users[j-1]] = colunm[j];
+        } else {
+          betDates[formattedDate]['score'] = colunm[j];
+        }
+      }
     }
   }
-};
 
-function calcularLeaderBoard(data){
+  let response = {users,betDates}
+
+  //console.log(JSON.stringify(response));
+
+  return response;
+  
+}
+
+async function calcularLeaderBoard(){
+  const data = await getDataFromGoogleSheetAPI();
+
   let betsMonth = data.betDates;
   let counting = [];
   let sum = [];
@@ -226,7 +236,7 @@ function calcularLeaderBoard(data){
   }
 
   let message = `
-  Leaderboard - Abril`;
+  \`\`\`Leaderboard - Abril`;
 
   leaderboard.forEach(place => {
     let {position, user, score} = place;
@@ -234,13 +244,15 @@ function calcularLeaderBoard(data){
     ` + position + " - " + score + " pontos - " + user;
   })
 
-  return leaderboard, message;
+  message += `\`\`\``;
+
+  console.log(message);
+
+  //return leaderboard, message;
 
 }
 
-let leaderboard, message = calcularLeaderBoard(data);
-
-console.log(message);
+calcularLeaderBoard();
 
 //calcularVencedorDoDia(apostasComSnipada, pontuacao);
 
@@ -250,7 +262,7 @@ console.log(message);
   [x] - somar pontos
   [x] - ordernar e imprimir
   [x] - imprimir apenas dia atual
-  [ ] - coletar dados
+  [x] - coletar dados
   [ ] - ordernar por snipadas
   [ ] - ordernar por quantidade de votos
 */

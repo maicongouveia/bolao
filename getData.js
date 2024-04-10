@@ -20,14 +20,13 @@ async function getDataFromGoogleSheetAPI(){
     majorDimension: "COLUMNS"
   });
 
-
   let data = getRows.data.values;
 
   let users = data[0];
   users.shift();
   users.pop();
 
-  //console.log(data);
+//console.log(data);
 
   let betDates = {};
 
@@ -57,9 +56,14 @@ async function getDataFromGoogleSheetAPI(){
 
   let response = {users,betDates}
 
+  console.log(JSON.stringify(response));
+
   return response;
   
 }
+
+getDataFromGoogleSheetAPI()
+
 
 /* 
   Video: https://www.youtube.com/watch?v=PFJNJQCU_lo&ab_channel=JamesGrimshaw

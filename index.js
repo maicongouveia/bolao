@@ -55,7 +55,7 @@ function encontrarVencedores(distancia){
 }
 
 function montarMensagem(ganhadores, pontuacao){
-  let mensagem = "Bom dia grupo\nPlanilha Atualizada\n";
+  let mensagem = "Bom dia grupo\nPlanilha Atualizada\n\n";
   
   if(ganhadores.length == 0){
     mensagem += "Ninguem acertou\n";
@@ -84,10 +84,7 @@ function montarMensagem(ganhadores, pontuacao){
     
   }
 
-  mensagem += "\nNota do Sono: " + pontuacao;
-
-  mensagem += `
-  `
+  mensagem += "\n\nNota do Sono: " + pontuacao;
 
   return mensagem;
 }
@@ -235,18 +232,18 @@ async function calcularLeaderBoard(){
     position++;
   }
 
-  let message = `
-  \`\`\`Leaderboard - Abril`;
+  let message = "\`\`\`\n[Leaderboard - Abril]\n";
 
   leaderboard.forEach(place => {
     let {position, user, score} = place;
-    message += `
-    ` + position + " - " + score + " pontos - " + user;
+    message += position + "º - " + score + " pontos - " + user + "\n";
   })
 
   message += `\`\`\``;
 
   console.log(message);
+
+  require('child_process').spawn('clip').stdin.end(message);
 
   //return leaderboard, message;
 

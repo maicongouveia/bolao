@@ -39,10 +39,11 @@ const getMissingBettingUsers = async (date = null) => {
 
   let usersMissingBet = [];
   for(let i = 1; i < bets.length; i++){
-    console.log(bets[i]);
     if(bets[i] == '0'){
-      console.log(users[i] + " não votou");
-      usersMissingBet.push(users[i-1]);
+      let j = i-1;
+      if(users[j]){
+        usersMissingBet.push(users[j]);
+      }
     }
   }
 

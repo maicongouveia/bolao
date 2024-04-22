@@ -59,6 +59,7 @@ function montarMensagem(ganhadores, pontuacao){
   
   if(ganhadores.length == 0){
     mensagem += "Ninguem acertou\n";
+    mensagem += "\nNota do Sono: " + pontuacao;
     return mensagem;
   }
 

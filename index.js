@@ -153,15 +153,20 @@ async function getDataFromGoogleSheetAPI(){
 
       betDates[formattedDate]['bets'] = {};
 
-      for(let j = 1; j < colunm.length; j++){
-        if(j != colunm.length-1){
-          betDates[formattedDate]['bets'][users[j-1]] = colunm[j];
-        } else {
-          betDates[formattedDate]['score'] = colunm[j];
+
+      
+      if(users.length + 2 == colunm.length){
+        for(let j = 1; j < colunm.length; j++){
+          if(j != colunm.length-1){
+            betDates[formattedDate]['bets'][users[j-1]] = colunm[j];
+          } else {
+            betDates[formattedDate]['score'] = colunm[j];
+          }
         }
       }
     }
   }
+
 
   let response = {users,betDates}
 
@@ -185,6 +190,7 @@ async function calcularLeaderBoard(){
 
   for(day of Object.keys(counting)){
     counting[day].forEach(item => {
+      //console.log(item)
       let {usuario, pontuacao} = item;
       if(!sum[usuario]){
         sum[usuario] = pontuacao;

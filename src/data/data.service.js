@@ -1,8 +1,12 @@
 const {google} = require('googleapis');
+const { dirname } = require('path');
+const appDir = dirname(require.main.filename);
+const filePath = appDir + "/../credentials.json";
 
 const getAllData = async() => {
+
     const auth = new google.auth.GoogleAuth({
-      keyFile: "credentials.json",
+      keyFile: filePath,
       scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
     

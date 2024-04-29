@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www "
+    "start:dev": "nodemon ./bin/www ",
+    "test": "jest"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -16,6 +17,10 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.0"
+  },
+  "transform": {
+    "\\.js$": "/node_modules/babel-jest"
   }
 }

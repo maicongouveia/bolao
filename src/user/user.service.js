@@ -51,8 +51,21 @@ const getMissingBettingUsers = async (date = null) => {
   
 }
 
-const getBetsByDate = async(data, date = null) => {
-  return null;
+const getBetsByDate = (data, date = null) => {
+
+  let bets = findDateVotes(date, data);
+
+  bets.shift();
+  
+  let users = formatUsers(data);
+
+  let response = {bets: {}};
+
+  for(let i = 0; i < users.length; i++){
+    response.bets[users[i]] = bets[i];
+  }
+
+  return response;
 }
 
 

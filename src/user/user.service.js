@@ -51,5 +51,9 @@ const getMissingBettingUsers = async (date = null) => {
   
 }
 
+const getBetsByDate = async(data, date = null) => {
+  return null;
+}
 
-module.exports = {getUsers, getMissingBettingUsers};
+
+module.exports = {getUsers, getMissingBettingUsers, getBetsByDate};

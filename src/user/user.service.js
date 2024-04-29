@@ -53,6 +53,10 @@ const getMissingBettingUsers = async (date = null) => {
 
 const getBetsByDate = (data, date = null) => {
 
+  if(!date){
+    date = utils.getDate();
+  }
+
   let bets = findDateVotes(date, data);
 
   bets.shift();

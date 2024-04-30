@@ -23,7 +23,7 @@ async function getBets(date = null){
   let betsTab = document.getElementById('bets')
 
   let form = document.createElement('form');
-  form.setAttribute('action', '/bet?date=' + date);
+  form.setAttribute('action', '/bets');
 
   Object.keys(bets).forEach( name => {
     let row = document.createElement('div');
@@ -68,9 +68,22 @@ function getValues(){
     values[inputs[index].id] = inputs[index].value;
   })
 
-  console.log(values)
+  //console.log(values)
 
   return values;
+}
+
+async function sendBets(date, values){
+  let body = {date, values};
+      
+  let url = '/bets';
+  //request
+  await fetch(url , {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body),
+  });  
+
 }
 
 async function main() {  
@@ -88,17 +101,8 @@ async function main() {
     inputs[index].addEventListener('input', async () => {
       //pegar valores
       let values = getValues();
-
-      let body = {date, values};
-      
-      //request
-      const request = await fetch(form.getAttribute('action'), {
-        method: 'POST',
-        body: JSON.stringify(body),
-      });
-      let response = await request.json();
-
-      console.log(response);
+      await sendBets(date, values);
+          
     });
   })
 }

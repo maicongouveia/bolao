@@ -3,7 +3,17 @@ extends layout
 block content
   div(class='card')
     img(src='images/bolao.jpeg')
-    div(class='loader')
-    p(id='message')
-    button="Copiar"
+    div(class='tab')
+      button(class='tablinks', onclick="openTab(event, 'leadeboard')")='Leaderboard'
+      button(class='tablinks', onclick="openTab(event, 'bets')")='Apostas'
+      button(class='tablinks', onclick="openTab(event, 'warningmessage')")='Messagem de Aviso'
+    
+    div(id='leaderboard',class='tabcontent')
+
+    div(id='bets',class='tabcontent')
+
+    div(id='warningmessage',class='tabcontent')
+      div(class='loader')
+      p(id='message')
+      button="Copiar"
 

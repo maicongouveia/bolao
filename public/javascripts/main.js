@@ -22,6 +22,9 @@ async function getBets(date = null){
 
   let betsTab = document.getElementById('bets')
 
+  let form = document.createElement('form');
+  form.setAttribute('action', '/bet?date=' + date);
+
   Object.keys(bets).forEach( name => {
     let row = document.createElement('div');
     row.setAttribute('class', 'row');
@@ -40,17 +43,61 @@ async function getBets(date = null){
     row.appendChild(label);
     row.appendChild(input);
 
-    betsTab.appendChild(row);
+    form.appendChild(row);
+
+    betsTab.appendChild(form);
   }
   )
 
 
 }
 
+function getDate(){
+  let now = new Date();
+  now = now.toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}).split("/");
+  let date = now[0]+"/"+now[1];
+  //console.log(date);
+  return date;
+}
+
+function getValues(){
+  let inputs = document.getElementsByTagName('input');
+  let values = {};
+
+  Object.keys(inputs).forEach(index => {
+    values[inputs[index].id] = inputs[index].value;
+  })
+
+  console.log(values)
+
+  return values;
+}
 
 async function main() {  
-  missingBets()
-  getBets()
+  await missingBets();
+  await getBets(getDate());
+
+  let inputs = document.getElementsByTagName('input');
+
+  //console.log(inputs);
+
+  let form = document.getElementsByTagName('form')[0];
+
+  Object.keys(inputs).forEach(async (index) => {
+    inputs[index].addEventListener('input', async () => {
+      //pegar valores
+      let values = getValues();
+      
+      //request
+      const request = await fetch(form.getAttribute('action'), {
+        method: 'POST',
+        body: JSON.stringify(values),
+      });
+      let response = await request.json();
+
+      console.log(response);
+    });
+  })
 }
 
 function openTab(evt, tabName) {

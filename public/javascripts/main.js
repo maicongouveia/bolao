@@ -4,8 +4,8 @@ async function missingBets() {
   //console.log(response.message);
   //remove loader
   let loaderElement = document.getElementsByClassName('loader')[0];
-  loaderElement.remove();
-  
+  if(loaderElement) loaderElement.remove();
+    
   //Include message
   let pElement = document.getElementById('message');
   pElement.textContent = response.message;

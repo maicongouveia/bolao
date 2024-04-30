@@ -74,8 +74,9 @@ function getValues(){
 }
 
 async function main() {  
+  let date = getDate();
   await missingBets();
-  await getBets(getDate());
+  await getBets(date);
 
   let inputs = document.getElementsByTagName('input');
 
@@ -87,11 +88,13 @@ async function main() {
     inputs[index].addEventListener('input', async () => {
       //pegar valores
       let values = getValues();
+
+      let body = {date, values};
       
       //request
       const request = await fetch(form.getAttribute('action'), {
         method: 'POST',
-        body: JSON.stringify(values),
+        body: JSON.stringify(body),
       });
       let response = await request.json();
 

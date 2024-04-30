@@ -102,7 +102,7 @@ async function main() {
       //pegar valores
       let values = getValues();
       await sendBets(date, values);
-          
+      await missingBets();
     });
   })
 }

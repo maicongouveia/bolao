@@ -1,6 +1,6 @@
 const userService = require("./user.service");
 const dataService = require("../data/data.service");
-const { request } = require("express");
+
 
 const usersMap = {
   "Alan": "@Alan Kenji",
@@ -56,4 +56,13 @@ const getBetsByDate = async(_request, response) => {
   return response.status(200).json(bets);
 }
 
-module.exports = { getUsers, getMissingBettingUsers, getBetsByDate };
+const setBets = async(_request, response) => {
+
+  let {date, values} = _request.body;
+
+  await userService.setBets(date, values);
+
+  return response.status(200).json({message: "Sheets updated"});
+}
+
+module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets };

@@ -30,4 +30,35 @@ const getAllData = async() => {
   
 }
 
-module.exports = {getAllData};
+const setData = async(values) => {
+  const auth = new google.auth.GoogleAuth({
+    keyFile: filePath,
+    scopes: "https://www.googleapis.com/auth/spreadsheets",
+  });
+  
+  // Create client instance for auth
+  const client = await auth.getClient();
+  
+  // Instance of Google Sheets API
+  const googleSheets = google.sheets({ version: "v4", auth: client });
+  
+  const spreadsheetId = "15maJIAB28avJGYQ-03u1b4C_QmcOtQioHPWcEolVors";
+
+  const body = {
+    values,
+  };
+
+  googleSheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: 'Abril!B1',
+    valueInputOption: 'RAW',
+    resource: body
+  }).then( response => {
+    console.log("Sheets updated");
+  })
+
+  
+
+}
+
+module.exports = {getAllData, setData};

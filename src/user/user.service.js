@@ -72,5 +72,57 @@ const getBetsByDate = (data, date = null) => {
   return response;
 }
 
+const formatSheetsData = (data) => {
 
-module.exports = {getUsers, getMissingBettingUsers, getBetsByDate};
+  return data.reduce((formatedSheetsData, row) => {
+    row.forEach((value, column) => {
+      if (!formatedSheetsData[column]) {
+        formatedSheetsData[column] = [];
+      }
+      formatedSheetsData[column].push(value);
+    });
+    return formatedSheetsData;
+  }, []);
+
+  c
+}
+
+const setBets = async (date, values) => {
+  let data = [];
+
+  data.push(date);
+
+  Object.values(values).forEach(value => {
+    if(value == "") data.push("0")
+    else data.push(value)
+  });
+
+  let columnIndex = 0;
+  
+  //found column index
+  let sheetsData = await dataService.getAllData();
+
+  for (let i = 0; i < sheetsData.length; i++) {
+    const column = sheetsData[i];
+    
+    if(date == column[0]){
+      columnIndex = i;
+    }
+  }
+
+  //change colunm data
+  sheetsData[columnIndex] = data;
+
+  //change the data format
+  let formatedSheetsData = formatSheetsData(sheetsData);
+
+  //console.log(formatedSheetsData);
+
+  //insert new data
+  await dataService.setData(formatedSheetsData);
+
+  return true;
+}
+
+
+module.exports = {getUsers, getMissingBettingUsers, getBetsByDate, setBets};

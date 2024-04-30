@@ -9,4 +9,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/missingbets', userController.getMissingBettingUsers);
 
+router.post('/bets', userController.setBets)
+
 module.exports = router;

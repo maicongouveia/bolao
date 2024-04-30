@@ -63,6 +63,22 @@ a {
   to {opacity: 1;}
 }
 
+input[type=text]{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Style the label to display next to the inputs */
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+
 .loader {
   width: 60px;
   aspect-ratio: 2;

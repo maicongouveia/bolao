@@ -1,5 +1,4 @@
-
-async function main() {
+async function missingBets() {
   const missingBetsRequest = await fetch('/missingbets');
   let response = await missingBetsRequest.json();
   //console.log(response.message);
@@ -10,9 +9,48 @@ async function main() {
   //Include message
   let pElement = document.getElementById('message');
   pElement.textContent = response.message;
-
+  
   //Copiar para Clipboard
-  navigator.clipboard.writeText(response.message);
+  //navigator.clipboard.writeText(response.message);
+}
+
+async function getBets(date = null){
+  const getBetsRequest = await fetch('/users/bets');
+  let {bets} = await getBetsRequest.json();
+
+  //console.log(response.bets);
+
+  let betsTab = document.getElementById('bets')
+
+  Object.keys(bets).forEach( name => {
+    let row = document.createElement('div');
+    row.setAttribute('class', 'row');
+
+    let label = document.createElement('label');
+    label.innerText = name + ": ";
+    label.setAttribute('for', name);
+
+    let input = document.createElement('input')
+    input.type = 'text';
+    input.id = name;
+    if(bets[name] != '0'){
+      input.value = bets[name];
+    }
+
+    row.appendChild(label);
+    row.appendChild(input);
+
+    betsTab.appendChild(row);
+  }
+  )
+
+
+}
+
+
+async function main() {  
+  missingBets()
+  getBets()
 }
 
 function openTab(evt, tabName) {

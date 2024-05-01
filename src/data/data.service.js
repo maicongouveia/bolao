@@ -20,7 +20,7 @@ const getAllData = async() => {
 
     const getRows = await googleSheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'Abril!B1:AF9',
+      range: 'Abril!B1:AF9',//'Maio!B1:AG9',
       majorDimension: "COLUMNS"
     });
 
@@ -50,7 +50,7 @@ const setData = async(values) => {
 
   googleSheets.spreadsheets.values.update({
     spreadsheetId,
-    range: 'Abril!B1',
+    range: 'Maio!B1',
     valueInputOption: 'RAW',
     resource: body
   }).then( response => {

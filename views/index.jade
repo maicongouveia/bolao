@@ -4,16 +4,15 @@ block content
   div(class='card')
     img(src='images/bolao.jpeg')
     div(class='tab')
-      button(class='tablinks', onclick="openTab(event, 'leadeboard')")='Leaderboard'
+      button(class='tablinks', onclick="openTab(event, 'leaderboardTab')")='Leaderboard'
       button(class='tablinks', onclick="openTab(event, 'bets')")='Apostas'
       button(class='tablinks', onclick="openTab(event, 'warningmessage')")='Mensagem de Aviso'
     
-    div(id='leaderboard',class='tabcontent')
+    div(id='leaderboardTab',class='tabcontent')
+      div(class='loader',id='loaderLeaderboard')
 
     div(id='bets',class='tabcontent')   
 
     div(id='warningmessage',class='tabcontent')
       div(class='loader')
       p(id='message')
-      button="Copiar"
-

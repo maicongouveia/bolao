@@ -86,27 +86,6 @@ async function sendBets(date, values){
 
 }
 
-async function main() {  
-  let date = getDate();
-  await missingBets();
-  await getBets(date);
-
-  let inputs = document.getElementsByTagName('input');
-
-  //console.log(inputs);
-
-  let form = document.getElementsByTagName('form')[0];
-
-  Object.keys(inputs).forEach(async (index) => {
-    inputs[index].addEventListener('input', async () => {
-      //pegar valores
-      let values = getValues();
-      await sendBets(date, values);
-      await missingBets();
-    });
-  })
-}
-
 function openTab(evt, tabName) {
   // Declare all variables
   var i, tabcontent, tablinks;
@@ -126,6 +105,80 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " active";
+}
+
+async function getLeaderboard(){
+  const leaderboardRequest = await fetch('/leaderboard');
+  let {leaderboard, message} = await leaderboardRequest.json();
+
+  let loaderElement = document.getElementById('loaderLeaderboard');
+  if(loaderElement) loaderElement.remove();
+
+  let leaderboardTab = document.getElementById('leaderboardTab');
+
+  //console.log(leaderboard);
+
+  let table = document.createElement('table');
+  table.setAttribute('class','w3-table-all w3-card-4 w3-centered');
+
+  let tr                = document.createElement('tr');
+  let positionTitleCell = document.createElement('th');
+  let nameTitleCell     = document.createElement('th');
+  let scoreTitleCell    = document.createElement('th');
+
+  positionTitleCell.innerText = "<>";
+  scoreTitleCell.innerText = "Pontos";
+  nameTitleCell.innerText = "Nome";
+
+  tr.appendChild(positionTitleCell);
+  tr.appendChild(scoreTitleCell);
+  tr.appendChild(nameTitleCell);
+
+  table.appendChild(tr);
+
+  leaderboard.forEach(row => {
+    let tr           = document.createElement('tr');
+    let positionCell = document.createElement('td');
+    let scoreCell    = document.createElement('td');
+    let nameCell     = document.createElement('td');
+
+    positionCell.innerText = row.position + "º";
+    scoreCell.innerText = row.score;
+    nameCell.innerText = row.user;
+
+    tr.appendChild(positionCell);
+    tr.appendChild(scoreCell);
+    tr.appendChild(nameCell);
+
+    table.appendChild(tr);
+  })
+
+  leaderboardTab.appendChild(table);
+
+}
+
+async function main() {
+  let date = getDate();
+  
+  await getLeaderboard();
+  await getBets(date);
+  await missingBets();
+
+
+  let inputs = document.getElementsByTagName('input');
+
+  //console.log(inputs);
+
+  let form = document.getElementsByTagName('form')[0];
+
+  Object.keys(inputs).forEach(async (index) => {
+    inputs[index].addEventListener('input', async () => {
+      //pegar valores
+      let values = getValues();
+      await sendBets(date, values);
+      await missingBets();
+    });
+  })
 }
 
 main();

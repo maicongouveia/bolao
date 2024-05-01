@@ -121,6 +121,15 @@ async function getLeaderboard(){
   let table = document.createElement('table');
   table.setAttribute('class','w3-table-all w3-card-4 w3-centered');
 
+  let trTitle   = document.createElement('tr');
+  let titleCell = document.createElement('th');
+  titleCell.innerText = "Abril/2024";
+  titleCell.setAttribute('colspan', '3');
+
+  trTitle.appendChild(titleCell);
+
+  table.appendChild(trTitle);
+
   let tr                = document.createElement('tr');
   let positionTitleCell = document.createElement('th');
   let nameTitleCell     = document.createElement('th');
@@ -155,12 +164,37 @@ async function getLeaderboard(){
 
   leaderboardTab.appendChild(table);
 
+  //create button
+  let button = document.createElement('button');
+  button.setAttribute('id', 'copyToClipboardButton');
+  button.innerText = "Copiar Mensagem do Whatsapp";  
+  leaderboardTab.appendChild(button);
+
+  //insert message on html
+  let inputHidden = document.createElement('input');
+  inputHidden.setAttribute('id', 'whatsappMessage');
+  inputHidden.setAttribute('type', 'hidden');
+  inputHidden.value = message;
+
+  leaderboardTab.appendChild(inputHidden);
+
 }
 
 async function main() {
   let date = getDate();
   
   await getLeaderboard();
+
+  document.getElementsByTagName('button')[0].click();
+
+  let copyToClipboardButton = document.getElementById('copyToClipboardButton');
+  let message = document.getElementById('whatsappMessage').value;
+
+  copyToClipboardButton.addEventListener("click", () => {
+    navigator.clipboard.writeText(message);
+    console.log("Mensagem copiada");
+  })
+
   await getBets(date);
   await missingBets();
 
@@ -168,8 +202,6 @@ async function main() {
   let inputs = document.getElementsByTagName('input');
 
   //console.log(inputs);
-
-  let form = document.getElementsByTagName('form')[0];
 
   Object.keys(inputs).forEach(async (index) => {
     inputs[index].addEventListener('input', async () => {

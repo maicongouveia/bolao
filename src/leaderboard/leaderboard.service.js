@@ -105,6 +105,42 @@ function dayWinner(day, bets, score){
   return winners;
 }
 
+function dayWinnerMessage(winners, score){
+  let message = "Bom dia grupo\nPlanilha Atualizada\n\n";
+  
+  if(winners.length == 0){
+    message += "Ninguem acertou\n";
+    message += "\nNota do Sono: " + score;
+    return message;
+  }
+
+  message += "Parabens";
+
+  
+  winners.forEach(winner => {
+    message += " " + winner.user + " e" ;
+  })
+
+  message = message.slice(0, -2);
+  if(winners.length == 2){
+    message +=  " - Acerto aproximado"
+  }
+  else{
+    winners.forEach(ganhador => {
+      if(ganhador.score == 1){
+        message +=  " - Acerto aproximado"
+      } else {
+        message +=  " - SNIPOU"
+      }
+    })
+    
+  }
+
+  message += "\n\nNota do Sono: " + score + "\n";
+
+  return message;
+}
+
 function getLeaderboard(data){
 
   let parsedData = parseData(data);
@@ -113,10 +149,17 @@ function getLeaderboard(data){
 
   let betsMonth = parsedData.betDates;
   let counting = [];
+
+  let message = "";
+
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1)
+  yesterday = yesterday.toISOString().split("T")[0];
     
   for(day of Object.keys(betsMonth)){
     let {bets, score} = betsMonth[day]
     counting[day] = dayWinner(day, bets, score);
+    if(day == yesterday) message += dayWinnerMessage(counting[day], score);
   }
 
   //console.log(counting);
@@ -176,7 +219,7 @@ function getLeaderboard(data){
     position++;
   }
 
-  let message = "\`\`\`\n[Leaderboard - Maio]\n";
+  message += "\`\`\`\n[Leaderboard - Abril]\n";
 
   leaderboard.forEach(place => {
     let {position, user, score} = place;

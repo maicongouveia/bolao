@@ -123,7 +123,7 @@ async function getLeaderboard(){
 
   let trTitle   = document.createElement('tr');
   let titleCell = document.createElement('th');
-  titleCell.innerText = "Abril/2024";
+  titleCell.innerText = "Maio/2024";
   titleCell.setAttribute('colspan', '3');
 
   trTitle.appendChild(titleCell);

@@ -20,7 +20,7 @@ const getAllData = async() => {
 
     const getRows = await googleSheets.spreadsheets.values.get({
       spreadsheetId,
-      range: 'Abril!B1:AF9',//'Maio!B1:AG9',
+      range: 'Maio!B1:AG9',
       majorDimension: "COLUMNS"
     });
 

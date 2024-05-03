@@ -167,8 +167,13 @@ async function getLeaderboard(){
   //create button
   let button = document.createElement('button');
   button.setAttribute('id', 'copyToClipboardButton');
-  button.innerText = "Copiar Mensagem do Whatsapp";  
+  button.innerText = "Mensagem do Whatsapp";  
   leaderboardTab.appendChild(button);
+
+  let textAreaInput = document.createElement('textarea')
+  textAreaInput.value = message;
+
+  leaderboardTab.appendChild(textAreaInput);
 
   //insert message on html
   let inputHidden = document.createElement('input');

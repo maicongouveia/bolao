@@ -153,6 +153,10 @@ label {
   display: inline-block;
 }
 
+textarea{
+  width: 100%;
+}
+
 
 .loader {
   width: 60px;

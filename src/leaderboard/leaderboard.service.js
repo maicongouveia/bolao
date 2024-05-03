@@ -219,7 +219,7 @@ function getLeaderboard(data){
     position++;
   }
 
-  message += "\`\`\`\n[Leaderboard - Abril]\n";
+  message += "\`\`\`\n[Leaderboard - Maio]\n";
 
   leaderboard.forEach(place => {
     let {position, user, score} = place;

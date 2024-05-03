@@ -61,7 +61,7 @@ function getDate(){
 }
 
 function getValues(){
-  let inputs = document.getElementsByTagName('input');
+  let inputs = document.querySelectorAll('input[type=text]');
   let values = {};
 
   Object.keys(inputs).forEach(index => {
@@ -199,7 +199,7 @@ async function main() {
   await missingBets();
 
 
-  let inputs = document.getElementsByTagName('input');
+  let inputs = document.querySelectorAll('input[type=text]');
 
   //console.log(inputs);
 

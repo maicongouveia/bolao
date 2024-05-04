@@ -15,5 +15,6 @@ jobs:
         username: "bitnami"
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          ls
           cd /bolao
           git pull

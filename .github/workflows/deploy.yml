@@ -1,0 +1,19 @@
+on: push
+name: 🚀 Deploy website on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+    
+    - name: "Update application"
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: "18.117.75.85"
+        username: "bitnami"
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /bolao
+          git pull

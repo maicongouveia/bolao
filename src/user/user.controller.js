@@ -65,4 +65,12 @@ const setBets = async(_request, response) => {
   return response.status(200).json({message: "Sheets updated"});
 }
 
-module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets };
+const getSleepScore = async(_request, response) => {
+  const data = await dataService.getSleepScore();
+  const {date} = _request.body;
+  const score = userService.getSleepScore(data, date);
+
+  return response.status(200).json({score});
+}
+
+module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore };

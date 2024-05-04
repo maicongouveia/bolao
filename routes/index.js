@@ -14,4 +14,6 @@ router.post('/bets', userController.setBets);
 
 router.get('/leaderboard', leaderboardController.getLeaderboard);
 
+router.get('/sleepscore', userController.getSleepScore);
+
 module.exports = router;

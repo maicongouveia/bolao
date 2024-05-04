@@ -126,5 +126,17 @@ const setBets = async (date, values) => {
   return true;
 }
 
+const getSleepScore = (data, date = null) => {
 
-module.exports = {getUsers, getMissingBettingUsers, getBetsByDate, setBets};
+  if(date == null){
+    date = utils.getYesterdayDate();
+  }
+
+  let index = parseInt(date.split('/')[0]);
+
+  return data[index];
+
+}
+
+
+module.exports = {getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore};

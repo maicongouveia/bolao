@@ -6,4 +6,13 @@ const getDate = () => {
   return date;
 }
 
-module.exports = {getDate};
+const getYesterdayDate = () => {
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1)
+  yesterday = yesterday.toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}).split('/')
+  let date = yesterday[0]+"/"+yesterday[1];
+  //console.log(date);  
+  return date;
+}
+
+module.exports = {getDate, getYesterdayDate};

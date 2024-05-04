@@ -61,4 +61,10 @@ const setData = async(values) => {
 
 }
 
-module.exports = {getAllData, setData};
+const getSleepScore = async() => {
+  const data = await getAllData("ROWS");
+
+  return data[data.length-1];
+}
+
+module.exports = {getAllData, setData, getSleepScore};

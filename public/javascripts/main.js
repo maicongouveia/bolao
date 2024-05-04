@@ -21,39 +21,47 @@ async function getBets(date = null){
 
   //console.log(response.bets);
 
-  let betsTab = document.getElementById('bets')
+  let betsTab = document.getElementById('betsTab');
+
+  let betsContentTab = document.createElement('div');
+  betsContentTab.setAttribute('id', 'betsContentTab');
 
   let title = document.createElement('h3');
-  title.innerText = "Apostas -" + date;
+  title.innerText = "Apostas - " + date;
 
-  betsTab.appendChild(title);
+  betsContentTab.appendChild(title);
 
   let form = document.createElement('form');
   form.setAttribute('action', '/bets');
 
+  let ul = document.createElement('ul');
+
   Object.keys(bets).forEach( name => {
-    let row = document.createElement('div');
-    row.setAttribute('class', 'row');
+      let row = document.createElement('li');
 
-    let label = document.createElement('label');
-    label.innerText = name + ": ";
-    label.setAttribute('for', name);
+      let label = document.createElement('label');
+      label.innerText = name;
+      label.setAttribute('for', name);
 
-    let input = document.createElement('input')
-    input.type = 'text';
-    input.id = name;
-    if(bets[name] != '0'){
-      input.value = bets[name];
+      let input = document.createElement('input')
+      input.type = 'text';
+      input.id = name;
+      if(bets[name] != '0'){
+        input.value = bets[name];
+      }
+
+      row.appendChild(label);
+      row.appendChild(input);
+
+      ul.appendChild(row)
+
+      form.appendChild(ul);
+
+      betsContentTab.appendChild(form);
     }
-
-    row.appendChild(label);
-    row.appendChild(input);
-
-    form.appendChild(row);
-
-    betsTab.appendChild(form);
-  }
   )
+
+  betsTab.appendChild(betsContentTab)
 
 
 }

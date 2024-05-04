@@ -5,13 +5,13 @@ block content
     img(src='images/bolao.jpeg')
     div(class='tab')
       button(class='tablinks', onclick="openTab(event, 'leaderboardTab')")='Leaderboard'
-      button(class='tablinks', onclick="openTab(event, 'bets')")='Apostas'
+      button(class='tablinks', onclick="openTab(event, 'betsTab')")='Apostas'
       button(class='tablinks', onclick="openTab(event, 'warningmessage')")='Mensagem de Aviso'
     
     div(id='leaderboardTab',class='tabcontent')
       div(class='loader',id='loaderLeaderboard')
 
-    div(id='bets',class='tabcontent')   
+    div(id='betsTab',class='tabcontent')   
 
     div(id='warningmessage',class='tabcontent')
       div(class='loader')

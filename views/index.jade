@@ -6,12 +6,19 @@ block content
     div(class='tab')
       button(class='tablinks', onclick="openTab(event, 'leaderboardTab')")='Leaderboard'
       button(class='tablinks', onclick="openTab(event, 'betsTab')")='Apostas'
+      button(class='tablinks', onclick="openTab(event, 'sleepScoreTab')")='Nota do Sono'
       button(class='tablinks', onclick="openTab(event, 'warningmessage')")='Mensagem de Aviso'
     
     div(id='leaderboardTab',class='tabcontent')
       div(class='loader',id='loaderLeaderboard')
 
-    div(id='betsTab',class='tabcontent')   
+    div(id='sleepScoreTab',class='tabcontent')
+      ul
+        li
+          label(for='sleepScore')='Nota do Sono'
+            input(id='sleepScore', type='text')
+
+    div(id='betsTab',class='tabcontent')
 
     div(id='warningmessage',class='tabcontent')
       div(class='loader')

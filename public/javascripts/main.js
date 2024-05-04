@@ -7,20 +7,26 @@ async function missingBets() {
   if(loaderElement) loaderElement.remove();
     
   //Include message
-  let pElement = document.getElementById('message');
-  pElement.textContent = response.message;
-  
-  //Copiar para Clipboard
-  //navigator.clipboard.writeText(response.message);
+  let textAreaInput = document.getElementById('whatsappWarningMessage');
+  textAreaInput.value = response.message;
 }
 
 async function getBets(date = null){
   const getBetsRequest = await fetch('/users/bets');
   let {bets} = await getBetsRequest.json();
+  
+  if(!date){
+    date = getDate();
+  }
 
   //console.log(response.bets);
 
   let betsTab = document.getElementById('bets')
+
+  let title = document.createElement('h3');
+  title.innerText = "Apostas -" + date;
+
+  betsTab.appendChild(title);
 
   let form = document.createElement('form');
   form.setAttribute('action', '/bets');
@@ -164,12 +170,6 @@ async function getLeaderboard(){
 
   leaderboardTab.appendChild(table);
 
-  //create button
-  let button = document.createElement('button');
-  button.setAttribute('id', 'copyToClipboardButton');
-  button.innerText = "Mensagem do Whatsapp";  
-  leaderboardTab.appendChild(button);
-
   let textAreaInput = document.createElement('textarea')
   textAreaInput.value = message;
 
@@ -192,13 +192,7 @@ async function main() {
 
   document.getElementsByTagName('button')[0].click();
 
-  let copyToClipboardButton = document.getElementById('copyToClipboardButton');
   let message = document.getElementById('whatsappMessage').value;
-
-  copyToClipboardButton.addEventListener("click", () => {
-    navigator.clipboard.writeText(message);
-    console.log("Mensagem copiada");
-  })
 
   await getBets(date);
   await missingBets();

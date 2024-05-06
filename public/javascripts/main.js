@@ -32,6 +32,7 @@ async function getBets(date = null){
   betsContentTab.appendChild(title);
 
   let form = document.createElement('form');
+  form.setAttribute('id', 'betsForm');
   form.setAttribute('action', '/bets');
 
   let ul = document.createElement('ul');
@@ -75,7 +76,7 @@ function getDate(){
 }
 
 function getValues(){
-  let inputs = document.querySelectorAll('input[type=text]');
+  let inputs = document.getElementById('betsForm').querySelectorAll('input[type=text]');
   let values = {};
 
   Object.keys(inputs).forEach(index => {

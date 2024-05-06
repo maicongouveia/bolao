@@ -138,5 +138,31 @@ const getSleepScore = (data, date = null) => {
 
 }
 
+const setSleepScore = async (date, score) => { 
+  
+  let columnDateIndex = parseInt(date.split('/')[0]); 
+  
+  let sheetsData = await dataService.getAllData("ROWS");
 
-module.exports = {getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore};
+  const sleepScoreRowIndex = sheetsData.length - 1;
+
+  let sleepScoreRow = sheetsData[sleepScoreRowIndex];
+
+  //if sleep score does not exist the array will be same size
+  if(sleepScoreRow.length == columnDateIndex){
+    sleepScoreRow.push(score);    
+  } else {
+    const dateSleepScoreIndex = columnDateIndex;
+    sleepScoreRow[dateSleepScoreIndex] = score;
+  }
+
+  sheetsData[sleepScoreRowIndex] = sleepScoreRow;
+
+  //insert new data
+  await dataService.setData(sheetsData);
+
+  return true;
+}
+
+
+module.exports = {getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore, setSleepScore};

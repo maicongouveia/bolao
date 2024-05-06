@@ -73,4 +73,29 @@ const getSleepScore = async(_request, response) => {
   return response.status(200).json({score});
 }
 
-module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore };
+const setSleepScore = async(_request, response) => {
+
+  let {date, score} = _request.body;
+
+  try {
+    await userService.setSleepScore(date, score);
+    return response.status(200).json({
+      data: {
+              date,
+              score
+            },
+      message: "sleep score updated"
+      });
+  } catch (error) {
+    return response.status(500).json({
+      data: {
+              date,
+              score
+            },
+      message: error.message
+      });
+  } 
+
+}
+
+module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore, setSleepScore };

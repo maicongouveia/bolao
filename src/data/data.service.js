@@ -55,16 +55,15 @@ const setData = async(values) => {
     resource: body
   }).then( response => {
     console.log("Sheets updated");
-  })
-
-  
+  }) 
 
 }
 
 const getSleepScore = async() => {
   const data = await getAllData("ROWS");
-
-  return data[data.length-1];
+  const sleepScoreRowIndex = data.length - 1;
+  //console.log(data[sleepScoreRowIndex]);
+  return data[sleepScoreRowIndex];
 }
 
 module.exports = {getAllData, setData, getSleepScore};

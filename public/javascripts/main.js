@@ -75,6 +75,15 @@ function getDate(){
   return date;
 }
 
+function getYesterdayDate(){
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1);
+  yesterday = yesterday.toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}).split("/");
+  let date = yesterday[0]+"/"+yesterday[1];
+  //console.log(date);
+  return date;
+}
+
 function getValues(){
   let inputs = document.getElementById('betsForm').querySelectorAll('input[type=text]');
   let values = {};
@@ -129,7 +138,8 @@ async function getLeaderboard(){
   let loaderElement = document.getElementById('loaderLeaderboard');
   if(loaderElement) loaderElement.remove();
 
-  let leaderboardTab = document.getElementById('leaderboardTab');
+  let leaderboardTab = document.getElementById('leaderboardTab');  
+  document.getElementById('leaderboardTab').innerHTML = "";
 
   //console.log(leaderboard);
 
@@ -194,6 +204,28 @@ async function getLeaderboard(){
 
 }
 
+async function getSleepScore(date = null){
+  const getSleepScoreRequest = await fetch('/sleepscore');
+  let {score} = await getSleepScoreRequest.json();
+  
+  if (score){ 
+    let sleepScoreInput = document.getElementById('sleepScore');
+    sleepScoreInput.value = score;
+  }
+}
+
+async function setSleepScore(date, score) {
+  let body = {date, score};
+      
+  let url = '/sleepscore';
+  //request
+  await fetch(url , {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body),
+  });    
+}
+
 async function main() {
   let date = getDate();
   
@@ -201,13 +233,11 @@ async function main() {
 
   document.getElementsByTagName('button')[0].click();
 
-  let message = document.getElementById('whatsappMessage').value;
-
   await getBets(date);
+  await getSleepScore(date);
   await missingBets();
 
-
-  let inputs = document.querySelectorAll('input[type=text]');
+  let inputs = document.getElementById('betsForm').querySelectorAll('input[type=text]');
 
   //console.log(inputs);
 
@@ -219,6 +249,12 @@ async function main() {
       await missingBets();
     });
   })
+
+  const yesterdayDate = getYesterdayDate();
+
+  document.getElementById('sleepScoreTabTitle').innerText += yesterdayDate;
+
+
 }
 
 main();

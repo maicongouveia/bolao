@@ -1,9 +1,8 @@
 function parseData(data){
-  let users = data[0];
+
+  let users = Array.from(data[0]);
   users.shift();
   users.pop();
-
-//console.log(data);
 
   let betDates = {};
 
@@ -18,11 +17,8 @@ function parseData(data){
       let formattedDate = `2024-${date[1]}-${date[0]}`;
 
       betDates[formattedDate] = {};
-
       betDates[formattedDate]['bets'] = {};
 
-
-      
       if(users.length + 2 == colunm.length){
         for(let j = 1; j < colunm.length; j++){
           if(j != colunm.length-1){

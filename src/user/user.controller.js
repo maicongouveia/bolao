@@ -1,5 +1,6 @@
 const userService = require("./user.service");
 const dataService = require("../data/data.service");
+const leaderboardService = require("../leaderboard/leaderboard.service");
 
 
 const usersMap = {
@@ -98,4 +99,16 @@ const setSleepScore = async(_request, response) => {
 
 }
 
-module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore, setSleepScore };
+const pageInfo = async (_request, response) => {
+  const data = await dataService.getAllData();
+
+  const leaderBoardResponse = leaderboardService.getLeaderboard(data);
+  const betsResponse = userService.getBetsByDate(data);
+
+  return response.status(200).json({
+    leaderBoardResponse,
+    betsResponse,
+  });
+}
+
+module.exports = { getUsers, getMissingBettingUsers, getBetsByDate, setBets, getSleepScore, setSleepScore, pageInfo };

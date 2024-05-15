@@ -2,7 +2,7 @@ const dataService = require("../data/data.service");
 const utils = require("../utils/index");
 
 const formatUsers = (data) => {
-  let users = data[0];
+  let users = Array.from(data[0]);
   users.shift();
   users.pop();
   return users;
@@ -59,7 +59,7 @@ const getBetsByDate = (data, date = null) => {
 
   let bets = findDateVotes(date, data);
 
-  //console.log(bets)
+  //console.log(data)
 
   bets.shift();
   

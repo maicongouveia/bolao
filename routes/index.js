@@ -18,4 +18,6 @@ router.get('/sleepscore', userController.getSleepScore);
 
 router.post('/sleepscore', userController.setSleepScore);
 
+router.get('/info', userController.pageInfo);
+
 module.exports = router;

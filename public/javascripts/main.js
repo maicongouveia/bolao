@@ -1,16 +1,3 @@
-async function missingBets() {
-  const missingBetsRequest = await fetch('/missingbets');
-  let response = await missingBetsRequest.json();
-  //console.log(response.message);
-  //remove loader
-  let loaderElement = document.getElementsByClassName('loader')[0];
-  if(loaderElement) loaderElement.remove();
-    
-  //Include message
-  let textAreaInput = document.getElementById('whatsappWarningMessage');
-  textAreaInput.value = response.message;
-}
-
 async function getBets(data = null, date = null){
 
   let bets;
@@ -266,7 +253,6 @@ async function main() {
 
   await getBets(betsResponse, date);
   await getSleepScore(date);
-  await missingBets();
 
   let inputs = document.getElementById('betsForm').querySelectorAll('input[type=text]');
 

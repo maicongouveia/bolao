@@ -7,7 +7,6 @@ block content
       button(class='tablinks', onclick="openTab(event, 'leaderboardTab')")='Leaderboard'
       button(class='tablinks', onclick="openTab(event, 'betsTab')")='Apostas'
       button(class='tablinks', onclick="openTab(event, 'sleepScoreTab')")='Nota do Sono'
-      button(class='tablinks', onclick="openTab(event, 'warningmessage')")='Mensagem de Aviso'
     
     div(id='leaderboardTab',class='tabcontent')
       div(class='loader',id='loaderLeaderboard')
@@ -20,7 +19,3 @@ block content
             input(id='sleepScore', type='text')
 
     div(id='betsTab',class='tabcontent')
-
-    div(id='warningmessage',class='tabcontent')
-      div(class='loader')
-      textarea(id='whatsappWarningMessage', rows="2")

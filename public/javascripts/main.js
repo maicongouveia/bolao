@@ -11,9 +11,18 @@ async function missingBets() {
   textAreaInput.value = response.message;
 }
 
-async function getBets(date = null){
-  const getBetsRequest = await fetch('/users/bets');
-  let {bets} = await getBetsRequest.json();
+async function getBets(data = null, date = null){
+
+  let bets;
+
+  if(!data){
+    const getBetsRequest = await fetch('/users/bets');
+    let response = await getBetsRequest.json();
+
+    bets = response.bets;
+  } else {
+    bets = data.bets;
+  }
   
   if(!date){
     date = getDate();
@@ -131,9 +140,22 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " active";
 }
 
-async function getLeaderboard(){
-  const leaderboardRequest = await fetch('/leaderboard');
-  let {leaderboard, message} = await leaderboardRequest.json();
+async function getLeaderboard(data = null){
+
+  let leaderboard;
+  let message;
+
+  if(!data){
+    const leaderboardRequest = await fetch('/leaderboard');
+    const response = await leaderboardRequest.json();
+
+    leaderboard = response.leaderboard;
+    message = response.message;
+
+  } else {
+    leaderboard = data.leaderboard;
+    message = data.message;
+  }
 
   let loaderElement = document.getElementById('loaderLeaderboard');
   if(loaderElement) loaderElement.remove();
@@ -226,14 +248,23 @@ async function setSleepScore(date, score) {
   });    
 }
 
+async function getPageInfo(){
+  const getPageInfoRequest = await fetch('/info');
+  const response = await getPageInfoRequest.json();
+  
+  return response;
+}
+
 async function main() {
   let date = getDate();
+
+  const {leaderBoardResponse, betsResponse} = await getPageInfo();
   
-  await getLeaderboard();
+  await getLeaderboard(leaderBoardResponse);
 
   document.getElementsByTagName('button')[0].click();
 
-  await getBets(date);
+  await getBets(betsResponse, date);
   await getSleepScore(date);
   await missingBets();
 

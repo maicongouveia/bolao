@@ -15,4 +15,26 @@ const getYesterdayDate = () => {
   return date;
 }
 
-module.exports = {getDate, getYesterdayDate};
+const getMonth = () => {
+  let now = new Date();
+  let monthIndex = now.getMonth();
+  const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ]
+
+  return months[monthIndex];
+}
+
+
+module.exports = {getDate, getYesterdayDate, getMonth};

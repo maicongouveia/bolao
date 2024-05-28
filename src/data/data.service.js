@@ -2,6 +2,7 @@ const {google} = require('googleapis');
 const { dirname } = require('path');
 const appDir = dirname(require.main.filename);
 const filePath = appDir + "/../credentials.json";
+const utils = require("../utils/index");
 
 const spreadsheetId = "15maJIAB28avJGYQ-03u1b4C_QmcOtQioHPWcEolVors";
 
@@ -28,9 +29,12 @@ const getAllData = async(majorDimension = null) => {
 
   const googleSheets = await googleSheetsClient();
 
+  const month = utils.getMonth();
+  const range = month + "!B1:AG9";
+
   const getRows = await googleSheets.spreadsheets.values.get({
     spreadsheetId,
-    range: 'Maio!B1:AG9',
+    range,
     majorDimension
   });
 
@@ -48,9 +52,12 @@ const setData = async(values) => {
     values,
   };
 
+  const month = utils.getMonth();
+  const range = month + "!B1";
+
   googleSheets.spreadsheets.values.update({
     spreadsheetId,
-    range: 'Maio!B1',
+    range,
     valueInputOption: 'RAW',
     resource: body
   }).then( response => {

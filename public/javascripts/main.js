@@ -80,6 +80,27 @@ function getYesterdayDate(){
   return date;
 }
 
+function getMonth(){
+  let now = new Date();
+  let monthIndex = now.getMonth();
+  const months = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro"
+  ]
+
+  return months[monthIndex];
+}
+
 function getValues(){
   let inputs = document.getElementById('betsForm').querySelectorAll('input[type=text]');
   let values = {};
@@ -157,7 +178,7 @@ async function getLeaderboard(data = null){
 
   let trTitle   = document.createElement('tr');
   let titleCell = document.createElement('th');
-  titleCell.innerText = "Maio/2024";
+  titleCell.innerText = getMonth() +"/2024";
   titleCell.setAttribute('colspan', '3');
 
   trTitle.appendChild(titleCell);

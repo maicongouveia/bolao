@@ -1,3 +1,5 @@
+const utils = require("../utils/index");
+
 function parseData(data){
 
   let users = Array.from(data[0]);
@@ -215,7 +217,9 @@ function getLeaderboard(data){
     position++;
   }
 
-  message += "\`\`\`\n[Leaderboard - Maio]\n";
+  const month = utils.getMonth();
+
+  message += "\`\`\`\n[Leaderboard - "+ month +"]\n";
 
   leaderboard.forEach(place => {
     let {position, user, score} = place;

@@ -11,8 +11,8 @@ jobs:
     - name: "Update application"
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: "18.117.75.85"
-        username: "bitnami"
+        host: "191.252.219.114"
+        username: "root"
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           cd bolao

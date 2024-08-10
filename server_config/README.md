@@ -41,6 +41,8 @@ sudo apt install nodejs
 
 ### Dependências do Projeto
 
+Dentro da pasta do projeto execute o comando
+
 ```
 npm i
 ```

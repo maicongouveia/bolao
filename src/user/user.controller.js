@@ -102,7 +102,7 @@ const setSleepScore = async(_request, response) => {
 const pageInfo = async (_request, response) => {
   const data = await dataService.getAllData();
 
-  const leaderBoardResponse = leaderboardService.getLeaderboard(data);
+  const leaderBoardResponse = leaderboardService.getLeaderboardWithNewPatch(data);
   const betsResponse = userService.getBetsByDate(data);
 
   return response.status(200).json({

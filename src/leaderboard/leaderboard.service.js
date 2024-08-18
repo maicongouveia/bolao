@@ -54,11 +54,11 @@ function calculateDifferences(bets, score){
   return difference;
 }
 
-function findWinners(difference){
+function findWinners(difference, range = 5){
 
   let winner = {
     user: "",
-    bet: 5,
+    bet: range,
   };
 
   let twoWinners = false;
@@ -98,7 +98,7 @@ function dayWinner(day, bets, score){
   
   let difference = calculateDifferences(bets, score);
 
-  let winners = findWinners(difference);
+  let winners = findWinners(difference, 3);
 
   return winners;
 }
@@ -238,4 +238,123 @@ function getLeaderboard(data){
   
 }
 
-module.exports = {getLeaderboard};
+function getLeaderboardWithNewPatch(data){
+
+  let parsedData = parseData(data);
+
+  //console.log(parsedData);
+
+  let betsMonth = parsedData.betDates;
+  let counting = [];
+
+  let message = "";
+
+  let yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1)
+  yesterday = yesterday.toISOString().split("T")[0];
+
+  let accumulated = 0;
+    
+  for(day of Object.keys(betsMonth)){
+    let {bets, score} = betsMonth[day]
+    counting[day] = dayWinner(day, bets, score);
+
+    //acumula
+    if(counting[day].length == 0){
+      accumulated += 1;
+    } else {
+      if(counting[day].length == 1){
+        counting[day][0]['score'] += accumulated;
+      }
+      else{
+        for(userScore of counting[day]){
+          userScore += accumulated / counting[day].length
+        }
+      }
+      accumulated = 0;
+    }
+
+    if(day == yesterday) message += dayWinnerMessage(counting[day], score);
+  }
+
+  //console.log(accumulated);
+
+  //console.log(counting);
+
+  let sum = [];
+
+  for(day of Object.keys(counting)){
+    counting[day].forEach(item => {
+      //console.log(item)
+      let {user, score} = item;
+      if(!sum[user]){
+        sum[user] = score;
+      } else {
+        sum[user] += score;
+      } 
+    })
+  }
+
+  //console.log(sum);
+
+  //pegar maior
+  let max = 0;
+  
+  for(user of Object.keys(sum)){
+    if(sum[user] >= max){
+      max = sum[user];
+    }
+  }
+
+  let leaderboard = [];
+  let position = 1;
+
+  let users = parsedData.users;
+  //remove usuario que tem pontos
+  for(nome of Object.keys(sum)){
+    users = users.filter((user) => {return user != nome})
+  }
+
+  for(let i = max; i >= 0; i--){
+    for(user of Object.keys(sum)){
+        if(sum[user] == i){
+          leaderboard.push({
+            position,
+            user,
+            score: sum[user]
+          })
+          position++;
+        }
+      }
+  }
+  for(user of users){
+    leaderboard.push({
+      position,
+      user,
+      score: 0
+    })
+    position++;
+  }
+
+  const month = utils.getMonth();
+
+  message += "\`\`\`\n[Leaderboard - "+ month +"]\n";
+
+  leaderboard.forEach(place => {
+    let {position, user, score} = place;
+    message += position + "º - " + score + " pontos - " + user + "\n";
+  })
+
+  message += `\`\`\``;
+
+  // console.log(message);
+
+  return {
+    leaderboard,
+    message
+  }
+
+  
+}
+
+module.exports = {getLeaderboard, getLeaderboardWithNewPatch};

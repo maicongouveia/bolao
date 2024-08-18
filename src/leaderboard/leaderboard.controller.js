@@ -5,7 +5,7 @@ async function getLeaderboard(_request, response) {
 
   const data = await dataService.getAllData();
 
-  let responseBody = leaderboardService.getLeaderboard(data);
+  let responseBody = leaderboardService.getLeaderboardWithNewPatch(data);
 
   return response.status(200).json(responseBody);
 

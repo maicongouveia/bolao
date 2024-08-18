@@ -94,9 +94,18 @@ const setBets = async (date, values) => {
 
   data.push(date);
 
-  Object.values(values).forEach(value => {
-    if(value == "") data.push("0")
-    else data.push(value)
+  //console.log(values);
+
+  Object.values(values).forEach(value => {    
+    if(value == ""){
+      data.push(0);
+    } else {
+      if(isNaN(value)){
+        data.push(value)
+      } else {
+        data.push(parseInt(value))
+      }
+    }
   });
 
   let columnIndex = 0;

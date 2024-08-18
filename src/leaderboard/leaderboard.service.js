@@ -104,11 +104,12 @@ function dayWinner(day, bets, score){
 }
 
 function dayWinnerMessage(winners, score){
-  let message = "Bom dia grupo\nPlanilha Atualizada\n\n";
+  let message = "Bom dia grupo\n";
+      message += "Planilha Atualizada\n";
   
   if(winners.length == 0){
-    message += "Ninguém acertou\n";
-    message += "\nNota do Sono: " + score;
+    message += "Ninguém acertou e ACUMULOU\n";
+    message += "Nota do Sono: " + score + "\n";
     return message;
   }
 
@@ -134,7 +135,7 @@ function dayWinnerMessage(winners, score){
     
   }
 
-  message += "\n\nNota do Sono: " + score + "\n";
+  message += "Nota do Sono: " + score + "\n";
 
   return message;
 }

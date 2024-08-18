@@ -107,7 +107,7 @@ function dayWinnerMessage(winners, score){
   let message = "Bom dia grupo\nPlanilha Atualizada\n\n";
   
   if(winners.length == 0){
-    message += "Ninguem acertou\n";
+    message += "Ninguém acertou\n";
     message += "\nNota do Sono: " + score;
     return message;
   }

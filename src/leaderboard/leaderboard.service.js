@@ -100,6 +100,8 @@ function dayWinner(day, bets, score){
 
   let winners = findWinners(difference, 3);
 
+  //console.log(winners)
+
   return winners;
 }
 
@@ -268,14 +270,27 @@ function getLeaderboardWithNewPatch(data){
         counting[day][0]['score'] += accumulated;
       }
       else{
-        for(userScore of counting[day]){
-          userScore += accumulated / counting[day].length
+        if(accumulated == 1){
+          for(userScore of counting[day]){
+            userScore['score'] += accumulated
+          }
+        } 
+        else {
+          for(userScore of counting[day]){
+            userScore['score'] += accumulated / counting[day].length
+          }
         }
+
       }
       accumulated = 0;
     }
 
-    if(day == yesterday) message += dayWinnerMessage(counting[day], score);
+    //console.log([day, counting[day], accumulated])
+
+    if(day == yesterday) {
+      message += dayWinnerMessage(counting[day], score);
+      break
+    } 
   }
 
   //console.log(accumulated);

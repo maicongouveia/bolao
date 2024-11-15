@@ -106,16 +106,16 @@ function dayWinner(day, bets, score){
 }
 
 function dayWinnerMessage(winners, score){
-  let message = "Bom dia grupo\n";
-      message += "Planilha Atualizada\n";
+  let message = "Bom dia grupo" + "\n";
+      message += "Planilha Atualizada" + "\n" + "\n";
   
   if(winners.length == 0){
-    message += "Ninguém acertou e ACUMULOU\n";
-    message += "Nota do Sono: " + score + "\n";
+    message += "Ninguém acertou e acumulou\n";
+    message += "*Nota do Sono: " + score + "*" + "\n";
     return message;
   }
 
-  message += "Parabens";
+  message += "Parabéns";
 
   
   winners.forEach(winner => {
@@ -129,9 +129,9 @@ function dayWinnerMessage(winners, score){
   else{
     winners.forEach(ganhador => {
       if(ganhador.score == 1){
-        message +=  " - Acerto aproximado"
+        message +=  " - Acerto aproximado" + "\n";
       } else {
-        message +=  " - SNIPOU"
+        message +=  " - SNIPOU" + "\n"; 
       }
     })
     

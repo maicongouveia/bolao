@@ -106,7 +106,8 @@ function dayWinner(day, bets, score){
 }
 
 function dayWinnerMessage(winners, score){
-  let message = "Bom dia grupo" + "\n";
+  let message = utils.greet()
+      message += " grupo" + "\n";
       message += "Planilha Atualizada" + "\n" + "\n";
   
   if(winners.length == 0){
@@ -252,9 +253,7 @@ function getLeaderboardWithNewPatch(data){
 
   let message = "";
 
-  let yesterday = new Date();
-  yesterday.setDate(yesterday.getDate()-1)
-  yesterday = yesterday.toISOString().split("T")[0];
+  let yesterday = utils.getFullYesterdayDate();
 
   let accumulated = 0;
     
@@ -287,6 +286,8 @@ function getLeaderboardWithNewPatch(data){
 
     //console.log([day, counting[day], accumulated])
 
+    console.log([day, yesterday]);
+    
     if(day == yesterday) {
       message += dayWinnerMessage(counting[day], score);
       break

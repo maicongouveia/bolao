@@ -138,7 +138,7 @@ function dayWinnerMessage(winners, score){
     
   }
 
-  mmessage += "\n" + "*Nota do Sono: " + score + "*" + "\n";
+  message += "\n" + "*Nota do Sono: " + score + "*" + "\n";
 
   return message;
 }
